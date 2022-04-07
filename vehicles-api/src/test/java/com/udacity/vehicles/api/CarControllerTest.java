@@ -4,9 +4,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -128,6 +126,16 @@ public class CarControllerTest {
          *   a vehicle by ID. This should utilize the car from `getCar()` below.
          */
         Car car = getCar();
+        mvc.perform(get("/cars/{id}", car.getId())
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateCar() throws java.lang.Exception{
+        Car car = getCar();
+
+        car.setCondition(Condition.NEW);
         mvc.perform(get("/cars/{id}", car.getId())
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
